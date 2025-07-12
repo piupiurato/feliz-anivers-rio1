@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Feliz Aniversário, Amor!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: #880e4f;
+      text-align: center;
+      overflow: hidden;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Fundo com a vossa foto */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('foto.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      filter: blur(3px) brightness(0.7);
+      z-index: -2;
+    }
+    /* Camada rosa translúcida por cima da foto */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(#ffe6f088, #ffb3c688);
+      z-index: -1;
+    }
+
+    h1 {
+      font-size: 3em;
+      animation: aparecer 2s ease-in-out;
+      margin-top: 60px;
+    }
+
+    p {
+      font-size: 1.5em;
+      margin: 20px;
+    }
+
+    .mensagem-oculta {
+      display: none;
+      margin-top: 20px;
+      font-size: 1.3em;
+      color: #ad1457;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #ec407a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin: 10px;
+    }
+
+    button:hover {
+      background-color: #d81b60;
+    }
+
+    @keyframes aparecer {
+      0% { opacity: 0; transform: translateY(-50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .emoji {
+      font-size: 3em;
+      margin-top: 30px;
+    }
+
+    .heart {
+      position: fixed;
+      top: -10px;
+      font-size: 24px;
+      color: #ff3366;
+      animation: fall linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="btnTocarMusica2">Tocar música</button>
+
+  <div class="emoji">🎂💖🎉</div>
+  <h1>Feliz Aniversário, meu amor!</h1>
+  <p>Hoje é o seu dia, e mesmo de longe, meu coração está juntinho do seu 💌</p>
+
+  <button id="btnSurpresa">Clique aqui para ver uma surpresa</button>
+
+  <div class="mensagem-oculta" id="mensagem">
+    Você é meu presente todos os dias. Que este novo ano da sua vida traga sorrisos, amor e muitos momentos incríveis ao meu lado. ❤️<br><br>
+    Com todo o meu carinho,<br>
+    Rúben Xavier Periquito
+  </div>
+
+  <!-- Áudios -->
+  <audio id="musica" preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <audio id="musica2" preload="auto">
+    <source src="musica2.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    const btnTocar = document.getElementById('btnTocarMusica2');
+    const btnSurpresa = document.getElementById('btnSurpresa');
+    const mensagem = document.getElementById('mensagem');
+    const audio1 = document.getElementById('musica');
+    const audio2 = document.getElementById('musica2');
+    let coracoesAtivados = false;
+
+    btnTocar.addEventListener('click', () => {
+      audio2.currentTime = 0;
+      audio2.play().catch(err => console.log("Erro ao tocar musica2:", err));
+    });
+
+    btnSurpresa.addEventListener('click', () => {
+      mensagem.style.display = 'block';
+
+      audio2.pause();
+      audio2.currentTime = 0;
+
+      audio1.currentTime = 0;
+      audio1.play().catch(err => console.log("Erro ao tocar musica:", err));
+
+      if (!coracoesAtivados) {
+        setInterval(criarCoracao, 300);
+        coracoesAtivados = true;
+      }
+    });
+
+    function criarCoracao() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
